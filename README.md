@@ -1,11 +1,73 @@
-# CS 300 Data Structures and Algorithms
+# ABCU Course Planner: Data Structures and Algorithms (CS 300)
 
-This repository contains my work from CS 300: Data Structures and Algorithms at Southern New Hampshire University. The project is a course planning tool for ABCU's Computer Science advisors. It loads course information from a file, stores it in a data structure, and lets advisors print a sorted course list or look up a course and its prerequisites. Along the way, I compared vectors, hash tables, and binary search trees to choose the best fit for the program, then built the final version in C++.
+A C++ command-line tool that helps ABCU's Computer Science advisors plan student schedules. It loads the course catalog from a CSV file into a **binary search tree**, prints every course in alphanumeric order, and looks up any course with its prerequisites.
 
+Built for **CS 300: Data Structures and Algorithms** at Southern New Hampshire University.
 
-## Files in this repository
-- **Project One:** my runtime and memory analysis of a vector, a hash table, and a binary search tree
-- **ProjectTwo.cpp:** a C++ course planner that loads course data into a binary search tree and prints the courses in alphanumeric order
+---
+
+## How It Works
+
+```mermaid
+flowchart TD
+    A([Start]) --> M{Menu}
+    M -->|1. Load Data Structure| L[Read CSV file<br/>validate each line]
+    L --> B[(Binary search tree<br/>keyed by course number)]
+    B --> M
+    M -->|2. Print Course List| P[In-order traversal<br/>prints courses sorted]
+    P --> M
+    M -->|3. Print Course| S[Search tree<br/>case-insensitive]
+    S --> D[Show title and<br/>prerequisites]
+    D --> M
+    M -->|9. Exit| E([End])
+```
+
+## Choosing the Data Structure
+
+In Project One I wrote pseudocode for three data structures and compared their runtimes (average case):
+
+| Data structure | Find one course | Print all courses in order | Verdict |
+|---|---|---|---|
+| Vector | O(n) | O(n log n), must sort first | Slow at both |
+| Hash table | O(1) | O(n log n), no built-in order | Fast lookup, but has to sort every time |
+| **Binary search tree** | **O(log n)** | **O(n), in-order traversal** | **Chosen: does both jobs well** |
+
+---
+
+## Repository Contents
+
+| File | Description |
+|---|---|
+| `Project-One-Data-Structure-Analysis.docx` | Pseudocode and runtime/memory analysis of a vector, hash table, and binary search tree |
+| `CoursePlanner.cpp` | Final C++ program (Project Two) |
+| `sample_courses.csv` | Small sample catalog for trying the program |
+
+## Build and Run
+
+```bash
+g++ -std=c++17 -o course_planner CoursePlanner.cpp
+./course_planner
+```
+
+Choose option **1** and enter `sample_courses.csv`, then try options **2** and **3**.
+
+**Input format:** one course per line, `CourseNumber,Course Title,Prerequisite1,Prerequisite2,...`
+
+```
+CSCI300,Introduction to Algorithms,CSCI200,MATH201
+```
+
+**Features**
+- Case-insensitive search (`csci300` works the same as `CSCI300`)
+- Skips blank lines and extra commas from files saved in Excel
+- Warns about prerequisites that aren't in the catalog
+- Asks for the file name instead of hard-coding it
+
+## Skills Demonstrated
+
+C++ · binary search trees · Big O analysis · file I/O and input validation · pseudocode and algorithm design
+
+---
 
 ## Reflection
 
